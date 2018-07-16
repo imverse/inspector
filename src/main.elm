@@ -1,13 +1,22 @@
-module Hello exposing (..)
+module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Entity
 import Property
 import EntityUi
-import PropertyUi
 import Component
 import PropertyTableUi
+import Ports
+
+
+type alias Model =
+    { entities : List Entity.Entity }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Ports.replicationToElm UpdateStr
 
 
 testProperties : List Property.Property
@@ -50,9 +59,9 @@ testComponents =
     ]
 
 
-testEntities : List Entity.Entity
-testEntities =
-    [ (Entity.Entity 2 "FirstEntity" testComponents)
+testEntities : String -> List Entity.Entity
+testEntities name =
+    [ (Entity.Entity 2 name testComponents)
     , (Entity.Entity 3 "AnotherEntity" testComponents)
     ]
 
@@ -64,18 +73,46 @@ hackInsertCssLink children =
     ]
 
 
-entityTable : Html msg
-entityTable =
+entityTable : Model -> Html msg
+entityTable model =
     let
         entityElements =
-            (EntityUi.renderEntityRows testEntities)
-
-        propertyElements =
-            (PropertyUi.renderProperties testProperties)
+            (EntityUi.renderEntityRows model.entities)
     in
         (PropertyTableUi.renderPropertyTable entityElements)
 
 
-main : Html msg
+view : Model -> Html Msg
+view model =
+    div [] (hackInsertCssLink (entityTable model))
+
+
+type Msg
+    = UpdateStr String
+
+
+initModel : Model
+initModel =
+    Model (testEntities "FirstEntity")
+
+
+init : ( Model, Cmd Msg )
+init =
+    ( initModel, Cmd.none )
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        UpdateStr s ->
+            ( Model (testEntities s), Cmd.none )
+
+
+main : Program Never Model Msg
 main =
-    div [] (hackInsertCssLink entityTable)
+    program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }

@@ -1,0 +1,18 @@
+{
+  "name": "inspector-elm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "chokidar-cli": "^1.2.0",
+    "replication-client-js": "file:../../replication-client-js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "chokidar '**/*.elm' -c 'elm make main.elm --output elm.compiled.js' --initial"
+  },
+  "author": "",
+  "private": true,
+  "license": ""
+}
