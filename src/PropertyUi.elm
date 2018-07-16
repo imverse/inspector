@@ -1,4 +1,4 @@
-module PropertyUi exposing (renderPropertyTable)
+module PropertyUi exposing (renderProperties, renderStructureBlock)
 
 import Property
 import Html exposing (..)
@@ -60,15 +60,3 @@ renderStructuredField field =
 renderProperties : List Property.Property -> List (Html msg)
 renderProperties properties =
     List.concatMap renderProperty properties
-
-
-renderPropertyTable : List Property.Property -> Html msg
-renderPropertyTable properties =
-    table [ class "property-sheet" ]
-        [ thead []
-            [ td [] [ text "Name" ]
-            , td [] [ text "Value" ]
-            ]
-        , tbody []
-            (renderProperties properties)
-        ]

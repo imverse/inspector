@@ -23,6 +23,28 @@ thead td .property-sheet {
 }
 
 .structure-field .label {
-    text-indent: 12px;
-    color: #eeeeee;
+    text-indent: 20px;
+    color: #777777;
+}
+
+.entity {
+    background-color: #616161;
+}
+
+.entity .label {
+    border-top: 2px solid #eeeeee;
+}
+
+.component {
+    background-color: #414141;
+}
+
+.component .label {
+    text-indent: 4px;
+    border-top: 1px solid #303030;
+}
+
+.component-field .label {
+    text-indent: 10px;
+    color: #dfdd9d;
 }

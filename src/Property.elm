@@ -32,7 +32,8 @@ type alias Field =
 
 
 type alias Structure =
-    { fields : List Field
+    { typeName : String
+    , fields : List Field
     }
 
 
