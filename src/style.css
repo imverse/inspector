@@ -1,0 +1,22 @@
+.propertySheet {
+    background-color: #383838;
+    color: #AAAAAA;
+    table-layout: fixed;
+    font-family: 'Lucida Grande', 'Helvetica Neue', 'San Francisco';
+    font-size: 12px;
+}
+
+.propertySheet table {
+    table-layout: fixed;
+}
+
+.propertySheet thead td {
+    width: 50%;
+    background-color: #444444;
+}
+
+.property .label {
+    font-weight: bold;
+}
+
+.property .value {}
