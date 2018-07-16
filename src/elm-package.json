@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Imverse Inspector client",
-    "repository": "https://github.com/user/project.git",
+    "repository": "https://github.com/imverse/inspector-elm.git",
     "license": "",
     "source-directories": [
         "."
