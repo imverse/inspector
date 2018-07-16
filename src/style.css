@@ -1,16 +1,19 @@
-.propertySheet {
+.property-sheet {
     background-color: #383838;
-    color: #AAAAAA;
-    table-layout: fixed;
+    color: #aaaaaa;
     font-family: 'Lucida Grande', 'Helvetica Neue', 'San Francisco';
     font-size: 12px;
 }
 
-.propertySheet table {
+h1 .property-sheet {
+    background-color: #414141
+}
+
+table .property-sheet {
     table-layout: fixed;
 }
 
-.propertySheet thead td {
+thead td .property-sheet {
     width: 50%;
     background-color: #444444;
 }
@@ -19,4 +22,7 @@
     font-weight: bold;
 }
 
-.property .value {}
+.structure-field .label {
+    text-indent: 12px;
+    color: #eeeeee;
+}
