@@ -11,6 +11,7 @@ import Ports
 import EntityDto
 import Model exposing (Model)
 import EntityDtoToModel
+import Graphics
 
 
 subscriptions : Model -> Sub Msg
@@ -83,7 +84,14 @@ entityTable model =
 
 view : Model -> Html Msg
 view model =
-    div [] (hackInsertCssLink (entityTable model))
+    let
+        propertySheet =
+            (hackInsertCssLink (entityTable model))
+
+        graphics =
+            [ Graphics.render model.entities ]
+    in
+        div [] (List.concat [ graphics, propertySheet ])
 
 
 type Msg
