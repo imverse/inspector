@@ -167,6 +167,5 @@ let c = new ReplicationClient(host, ProtocolDefinition, (entities) => {
     const root = {
         entities: entitiesDto
     };
-    console.log('root', root);
     app.ports.replicationToElm.send(root);
 }, log);
