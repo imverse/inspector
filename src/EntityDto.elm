@@ -3,7 +3,7 @@ module EntityDto exposing (..)
 import Json.Decode
 
 
-type alias Properties =
+type alias Property =
     { name : String
     , value : Json.Decode.Value
     }
@@ -11,7 +11,7 @@ type alias Properties =
 
 type alias ComponentField =
     { name : String
-    , properties : List Properties
+    , properties : List Property
     , typeName : String
     }
 

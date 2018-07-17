@@ -9,10 +9,8 @@ import Component
 import PropertyTableUi
 import Ports
 import EntityDto
-
-
-type alias Model =
-    { entities : List Entity.Entity }
+import Model exposing (Model)
+import EntityDtoToModel
 
 
 subscriptions : Model -> Sub Msg
@@ -106,14 +104,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UpdateStr entityDto ->
-            case
-                (List.head entityDto.entities)
-            of
-                Just firstEntity ->
-                    ( Model (testEntities firstEntity.typeName), Cmd.none )
-
-                Nothing ->
-                    ( Model (testEntities "Nothing"), Cmd.none )
+            ( Model (EntityDtoToModel.convert entityDto), Cmd.none )
 
 
 main : Program Never Model Msg

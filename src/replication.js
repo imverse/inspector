@@ -129,7 +129,7 @@ let c = new ReplicationClient(host, ProtocolDefinition, (entities) => {
                     fieldDtos.push({
                         name: componentFieldStructure.name,
                         type: componentFieldStructureDefinitionName,
-                        value: componentData
+                        value: componentData[componentFieldStructure.name]
                     });
                 } else {
                     let componentFieldStructureDefinition =
@@ -167,5 +167,6 @@ let c = new ReplicationClient(host, ProtocolDefinition, (entities) => {
     const root = {
         entities: entitiesDto
     };
+    console.log('root', root);
     app.ports.replicationToElm.send(root);
 }, log);
