@@ -8,6 +8,7 @@ import EntityUi
 import Component
 import PropertyTableUi
 import Ports
+import EntityDto
 
 
 type alias Model =
@@ -88,7 +89,7 @@ view model =
 
 
 type Msg
-    = UpdateStr String
+    = UpdateStr EntityDto.Root
 
 
 initModel : Model
@@ -104,8 +105,15 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdateStr s ->
-            ( Model (testEntities s), Cmd.none )
+        UpdateStr entityDto ->
+            case
+                (List.head entityDto.entities)
+            of
+                Just firstEntity ->
+                    ( Model (testEntities firstEntity.typeName), Cmd.none )
+
+                Nothing ->
+                    ( Model (testEntities "Nothing"), Cmd.none )
 
 
 main : Program Never Model Msg
