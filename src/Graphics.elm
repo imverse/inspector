@@ -23,7 +23,7 @@ render entities =
                             entity.position.x * 80.0
 
                         y =
-                            entity.position.y * 80.0
+                            entity.position.z * 80.0
                     in
                         (entityIcon x y)
                 )
