@@ -102,70 +102,81 @@ let _getBaseComplexTypeFields =
     }
 
 let c = new ReplicationClient(host, ProtocolDefinition, (entities) => {
-    let entitiesDto = [];
-    for (let entityId of Object.keys(entities)) {
-        const entity = entities[entityId];
-        const typeDefinition = cache.lookup(entity.type);
-        let componentFieldsDto = [];
-        for (let componentFieldDefinition of typeDefinition.definition.fields) {
-            let componentTypeDefinitionName = componentFieldDefinition.component;
-            let componentTypeDefinition =
-                ProtocolDefinition.definition.components[componentTypeDefinitionName];
-            let componentFieldDto = {
-                name: componentFieldDefinition.name,
-                typeName: componentTypeDefinitionName,
-                fields: []
-            };
-            for (let componentFieldStructure of componentTypeDefinition.fields) {
-                let componentData = entity.data[componentFieldDefinition.name];
-                let componentFieldStructureDefinitionName =
-                    componentFieldStructure.type;
-                let fakeComponentFieldData = {
-                    name: componentFieldStructure.name,
-                    typeName: componentFieldStructureDefinitionName
+        let entitiesDto = [];
+        for (let entityId of Object.keys(entities)) {
+            const entity = entities[entityId];
+            const typeDefinition = cache.lookup(entity.type);
+            let componentFieldsDto = [];
+            let entityPosition = null;
+            for (let componentFieldDefinition of typeDefinition.definition.fields) {
+                let componentTypeDefinitionName = componentFieldDefinition.component;
+                let componentTypeDefinition =
+                    ProtocolDefinition.definition.components[componentTypeDefinitionName];
+                let componentFieldDto = {
+                    name: componentFieldDefinition.name,
+                    typeName: componentTypeDefinitionName,
+                    fields: []
                 };
-                let fieldDtos = [];
-                if (_isBaseType(componentFieldStructureDefinitionName)) {
-                    fieldDtos.push({
+                for (let componentFieldStructure of componentTypeDefinition.fields) {
+                    let componentData = entity.data[componentFieldDefinition.name];
+                    let componentFieldStructureDefinitionName =
+                        componentFieldStructure.type;
+                    let fakeComponentFieldData = {
                         name: componentFieldStructure.name,
-                        type: componentFieldStructureDefinitionName,
-                        value: componentData[componentFieldStructure.name]
-                    });
-                } else {
-                    let componentFieldStructureDefinition =
-                        ProtocolDefinition.definition
-                        .components[componentFieldStructureDefinitionName];
-                    let fields = _getBaseComplexTypeFields(
-                        componentFieldStructureDefinition,
-                        componentFieldStructureDefinitionName);
-                    let fieldsWithValues = [];
-                    const structureData = componentData[componentFieldStructure.name];
-                    for (let field of fields) {
-                        let fieldDto = {
-                            name: field.name,
-                            type: field.type,
-                            value: structureData[field.name]
-                        };
-                        fieldsWithValues.push(fieldDto);
+                        typeName: componentFieldStructureDefinitionName
+                    };
+                    let fieldDtos = [];
+                    if (_isBaseType(componentFieldStructureDefinitionName)) {
+                        fieldDtos.push({
+                            name: componentFieldStructure.name,
+                            type: componentFieldStructureDefinitionName,
+                            value: componentData[componentFieldStructure.name]
+                        });
+                    } else {
+                        let componentFieldStructureDefinition =
+                            ProtocolDefinition.definition
+                            .components[componentFieldStructureDefinitionName];
+                        let fields = _getBaseComplexTypeFields(
+                            componentFieldStructureDefinition,
+                            componentFieldStructureDefinitionName);
+                        let fieldsWithValues = [];
+                        const structureData = componentData[componentFieldStructure.name];
+                        if (componentFieldStructure.name === "position") {
+                            const position = {
+                                x: structureData.x,
+                                y: structureData.y,
+                                z: structureData.z
+                            };
+                            entityPosition = position;
+                        }
+                        for (let field of fields) {
+                            let fieldDto = {
+                                name: field.name,
+                                type: field.type,
+                                value: structureData[field.name]
+                            };
+                            fieldsWithValues.push(fieldDto);
+                        }
+                        fieldDtos = fieldDtos.concat(fieldsWithValues);
                     }
-                    fieldDtos = fieldDtos.concat(fieldsWithValues);
+
+                    fakeComponentFieldData.properties = fieldDtos;
+                    componentFieldDto.fields.push(fakeComponentFieldData);
                 }
-
-                fakeComponentFieldData.properties = fieldDtos;
-                componentFieldDto.fields.push(fakeComponentFieldData);
+                componentFieldsDto.push(componentFieldDto);
             }
-            componentFieldsDto.push(componentFieldDto);
-        }
 
-        let entityDto = {
-            id: parseInt(entityId),
-            typeName: typeDefinition.name,
-            components: componentFieldsDto
+            let entityDto = {
+                id: parseInt(entityId),
+                typeName: typeDefinition.name,
+                components: componentFieldsDto,
+                position: entityPosition
+            };
+            entitiesDto.push(entityDto);
+        }
+        const root = {
+            entities: entitiesDto
         };
-        entitiesDto.push(entityDto);
-    }
-    const root = {
-        entities: entitiesDto
-    };
-    app.ports.replicationToElm.send(root);
-}, log);
+        app.ports.replicationToElm.send(root);
+    },
+    log);

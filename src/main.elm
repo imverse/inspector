@@ -59,18 +59,25 @@ testComponents =
     ]
 
 
+testPosition =
+    { x = 2.0
+    , y = 10.0
+    , z = 30.0
+    }
+
+
 testEntities : String -> List Entity.Entity
 testEntities name =
-    [ (Entity.Entity 2 name testComponents)
-    , (Entity.Entity 3 "AnotherEntity" testComponents)
+    [ (Entity.Entity 2 name testPosition testComponents)
+    , (Entity.Entity 3 "AnotherEntity" testPosition testComponents)
     ]
 
 
-hackInsertCssLink : Html msg -> List (Html msg)
-hackInsertCssLink children =
-    [ node "link" [ rel "stylesheet", href "style.css" ] []
-    , children
-    ]
+hackInsertCssLink : Html msg
+hackInsertCssLink =
+    node "link"
+        [ rel "stylesheet", href "style.css" ]
+        []
 
 
 entityTable : Model -> Html msg
@@ -86,12 +93,12 @@ view : Model -> Html Msg
 view model =
     let
         propertySheet =
-            (hackInsertCssLink (entityTable model))
+            div [ class "property-sheet" ] [ (entityTable model) ]
 
         graphics =
-            [ Graphics.render model.entities ]
+            div [ class "viewer" ] [ Graphics.render model.entities ]
     in
-        div [] (List.concat [ graphics, propertySheet ])
+        div [ class "content" ] [ hackInsertCssLink, graphics, propertySheet ]
 
 
 type Msg

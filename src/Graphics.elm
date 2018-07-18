@@ -20,14 +20,14 @@ render entities =
                 (\entity ->
                     let
                         x =
-                            (toFloat entity.id) * 400.0
+                            entity.position.x * 80.0
 
                         y =
-                            (toFloat entity.id) * 100.0
+                            entity.position.y * 80.0
                     in
-                        entityIcon x y
+                        (entityIcon x y)
                 )
                 entities
             )
     in
-        svg [ Svg.Attributes.width "400", Svg.Attributes.height "400", viewBox "0 0 400 400", fill "white", stroke "black", strokeWidth "3", Html.Attributes.style [ ( "padding-left", "20px" ) ] ] allIcons
+        svg [ class "viewer", fill "white", stroke "black", strokeWidth "3" ] allIcons

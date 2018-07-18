@@ -76,7 +76,7 @@ convertComponents componentDto =
 
 convertEntity : EntityDto.Entity -> Entity.Entity
 convertEntity entityDto =
-    Entity.Entity entityDto.id entityDto.typeName (List.map convertComponents entityDto.components)
+    Entity.Entity entityDto.id entityDto.typeName entityDto.position (List.map convertComponents entityDto.components)
 
 
 convert : EntityDto.Root -> List Entity.Entity

@@ -23,10 +23,18 @@ type alias Component =
     }
 
 
+type alias Position =
+    { x : Float
+    , y : Float
+    , z : Float
+    }
+
+
 type alias Entity =
     { id : Int
     , typeName : String
     , components : List Component
+    , position : Position
     }
 
 
