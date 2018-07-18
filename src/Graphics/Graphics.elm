@@ -1,9 +1,9 @@
-module Graphics exposing (..)
+module Graphics.Graphics exposing (..)
 
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Html
-import Entity
+import InspectorModel.Entity exposing (Entity)
 
 
 type alias IconName =
@@ -38,7 +38,7 @@ iconNameFromType ptype =
             "generic"
 
 
-render : List Entity.Entity -> Html.Html msg
+render : List Entity -> Html.Html msg
 render entities =
     let
         allIcons =

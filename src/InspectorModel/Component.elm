@@ -1,6 +1,6 @@
-module Component exposing (..)
+module InspectorModel.Component exposing (..)
 
-import Property
+import InspectorModel.Property as Property
 
 
 type alias Field =

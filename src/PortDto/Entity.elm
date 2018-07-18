@@ -1,4 +1,4 @@
-module EntityDto exposing (..)
+module PortDto.Entity exposing (..)
 
 import Json.Decode
 

@@ -1,12 +1,12 @@
-module ComponentUi exposing (renderComponentRows)
+module View.Component exposing (renderComponentRows)
 
-import Component
-import PropertyUi
+import InspectorModel.Component exposing (Component, Field)
+import View.Property
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
-renderComponentField : Component.Field -> List (Html msg)
+renderComponentField : Field -> List (Html msg)
 renderComponentField field =
     let
         x =
@@ -15,15 +15,15 @@ renderComponentField field =
                 , td [ class "value" ] [ text field.structure.typeName ]
                 ]
     in
-        List.concat [ [ x ], PropertyUi.renderStructureBlock field.structure ]
+        List.concat [ [ x ], View.Property.renderStructureBlock field.structure ]
 
 
-renderComponentFields : Component.Component -> List (Html msg)
+renderComponentFields : Component -> List (Html msg)
 renderComponentFields component =
     List.concatMap renderComponentField component.componentFields
 
 
-renderComponent : Component.Component -> List (Html msg)
+renderComponent : Component -> List (Html msg)
 renderComponent component =
     let
         x =
@@ -35,11 +35,11 @@ renderComponent component =
         List.concat [ [ x ], y ]
 
 
-renderComponents : List Component.Component -> List (Html msg)
+renderComponents : List Component -> List (Html msg)
 renderComponents components =
     List.concatMap renderComponent components
 
 
-renderComponentRows : List Component.Component -> List (Html msg)
+renderComponentRows : List Component -> List (Html msg)
 renderComponentRows components =
     (renderComponents components)

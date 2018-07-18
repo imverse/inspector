@@ -1,4 +1,4 @@
-module Property exposing (..)
+module InspectorModel.Property exposing (..)
 
 
 type BaseType

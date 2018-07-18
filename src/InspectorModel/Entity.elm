@@ -1,6 +1,6 @@
-module Entity exposing (..)
+module InspectorModel.Entity exposing (..)
 
-import Component
+import InspectorModel.Component exposing (Component)
 
 
 type alias WorldPosition =
@@ -14,5 +14,5 @@ type alias Entity =
     { id : Int
     , ptype : String
     , position : WorldPosition
-    , components : List Component.Component
+    , components : List Component
     }

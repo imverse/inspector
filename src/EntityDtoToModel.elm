@@ -1,9 +1,9 @@
 module EntityDtoToModel exposing (convert)
 
-import EntityDto
-import Entity
-import Component
-import Property
+import PortDto.Entity
+import InspectorModel.Entity as Entity
+import InspectorModel.Component as Component
+import InspectorModel.Property as Property
 import Json.Decode
 
 
@@ -12,7 +12,7 @@ convertJsonObjectToValue jsonValue =
     Property.Base (Property.BaseFloat 1.0)
 
 
-convertProperty : EntityDto.Property -> Property.Property
+convertProperty : PortDto.Entity.Property -> Property.Property
 convertProperty propertyDto =
     Property.Property propertyDto.name (convertJsonObjectToValue propertyDto.value)
 
@@ -54,31 +54,31 @@ stringToBaseType typeName value =
         baseValue
 
 
-convertStructureField : EntityDto.ComponentField -> EntityDto.Property -> Property.Field
+convertStructureField : PortDto.Entity.ComponentField -> PortDto.Entity.Property -> Property.Field
 convertStructureField componentFieldDto property =
     Property.Field property.name (stringToBaseType componentFieldDto.typeName property.value)
 
 
-convertStructure : EntityDto.ComponentField -> Property.Structure
+convertStructure : PortDto.Entity.ComponentField -> Property.Structure
 convertStructure componentFieldDto =
     Property.Structure componentFieldDto.typeName (List.map (\x -> (convertStructureField componentFieldDto x)) componentFieldDto.properties)
 
 
-convertComponentField : EntityDto.ComponentField -> Component.Field
+convertComponentField : PortDto.Entity.ComponentField -> Component.Field
 convertComponentField componentFieldDto =
     Component.Field componentFieldDto.name (convertStructure componentFieldDto)
 
 
-convertComponents : EntityDto.Component -> Component.Component
+convertComponents : PortDto.Entity.Component -> Component.Component
 convertComponents componentDto =
     Component.Component componentDto.name (List.map convertComponentField componentDto.fields)
 
 
-convertEntity : EntityDto.Entity -> Entity.Entity
+convertEntity : PortDto.Entity.Entity -> Entity.Entity
 convertEntity entityDto =
     Entity.Entity entityDto.id entityDto.typeName entityDto.position (List.map convertComponents entityDto.components)
 
 
-convert : EntityDto.Root -> List Entity.Entity
+convert : PortDto.Entity.Root -> List Entity.Entity
 convert entityDto =
     List.map convertEntity entityDto.entities

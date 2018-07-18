@@ -2,16 +2,12 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Entity
-import Property
-import EntityUi
-import Component
-import PropertyTableUi
+import View.PropertySheet
 import Ports
-import EntityDto
+import PortDto.Entity
 import Model exposing (Model)
 import EntityDtoToModel
-import Graphics
+import Graphics.Graphics as Graphics
 
 
 subscriptions : Model -> Sub Msg
@@ -19,67 +15,9 @@ subscriptions model =
     Ports.replicationToElm UpdateStr
 
 
-testProperties : List Property.Property
-testProperties =
-    [ Property.Property "Example Name" (Property.Base (Property.BaseInt 42))
-    , Property.Property "Structured Name"
-        (Property.Structured
-            (Property.Structure "Vector2D"
-                [ Property.Field "x" (Property.BaseFloat 2.3)
-                , Property.Field "y" (Property.BaseFloat 2.5)
-                ]
-            )
-        )
-    , Property.Property "Another Name" (Property.Base (Property.BaseString "My Name"))
-    ]
-
-
-testStructure : Property.Structure
-testStructure =
-    (Property.Structure "Vector3f"
-        [ Property.Field "x" (Property.BaseFloat 1.5)
-        , Property.Field "y" (Property.BaseFloat 2.6)
-        , Property.Field "z" (Property.BaseFloat 3.7)
-        ]
-    )
-
-
-tileStructure : Property.Structure
-tileStructure =
-    (Property.Structure "Gfx"
-        [ Property.Field "tileIndex" (Property.BaseFloat 99)
-        ]
-    )
-
-
-testComponents : List Component.Component
-testComponents =
-    [ (Component.Component "body" [ (Component.Field "position" testStructure), (Component.Field "rotation" testStructure) ])
-    , (Component.Component "gfx" [ (Component.Field "tileData" tileStructure) ])
-    ]
-
-
-testPosition =
-    { x = 2.0
-    , y = 10.0
-    , z = 30.0
-    }
-
-
-testEntities : String -> List Entity.Entity
-testEntities name =
-    [ (Entity.Entity 2 name testPosition testComponents)
-    , (Entity.Entity 3 "AnotherEntity" testPosition testComponents)
-    ]
-
-
 entityTable : Model -> Html msg
 entityTable model =
-    let
-        entityElements =
-            (EntityUi.renderEntityRows model.entities)
-    in
-        (PropertyTableUi.renderPropertyTable entityElements)
+    (View.PropertySheet.renderPropertyTable model)
 
 
 view : Model -> Html Msg
@@ -95,12 +33,12 @@ view model =
 
 
 type Msg
-    = UpdateStr EntityDto.Root
+    = UpdateStr PortDto.Entity.Root
 
 
 initModel : Model
 initModel =
-    Model (testEntities "FirstEntity")
+    Model []
 
 
 init : ( Model, Cmd Msg )

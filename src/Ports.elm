@@ -1,6 +1,6 @@
 port module Ports exposing (..)
 
-import EntityDto
+import PortDto.Entity
 
 
-port replicationToElm : (EntityDto.Root -> msg) -> Sub msg
+port replicationToElm : (PortDto.Entity.Root -> msg) -> Sub msg

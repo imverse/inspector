@@ -1,6 +1,6 @@
-module PropertyUi exposing (renderProperties, renderStructureBlock)
+module View.Property exposing (renderProperties, renderStructureBlock)
 
-import Property
+import InspectorModel.Property as Property
 import Html exposing (..)
 import Html.Attributes exposing (..)
 

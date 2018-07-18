@@ -1,7 +1,7 @@
 module Model exposing (Model)
 
-import Entity
+import InspectorModel.Entity exposing (Entity)
 
 
 type alias Model =
-    { entities : List Entity.Entity }
+    { entities : List Entity }
