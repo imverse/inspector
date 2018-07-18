@@ -11,37 +11,45 @@ html {
 
 body {
     display: flex;
+    width: 100%;
 }
 
 div#main {
     display: flex;
+    width: 100%;
 }
 
 div.content {
     display: flex;
-}
-
-h1 .property-sheet {
-    background-color: #414141
-}
-
-div.property-sheet {
-    width: 25%;
-    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: stretch;
+    width: 100%;
 }
 
 div.viewer {
-    width: 75%;
+    display: flex;
+    flex: 4 4 auto;
+    align-self: auto;
     background-color: #616161;
+}
+
+div.property-sheet {
+    display: flex;
+    flex: 1 1 auto;
+    align-self: auto;
 }
 
 svg.viewer {
     width: 100%;
     height: 100%;
+    margin: 16px;
 }
 
-table .property-sheet {
-    table-layout: fixed;
+table.property-sheet {
+    width: 100%;
 }
 
 thead td .property-sheet {

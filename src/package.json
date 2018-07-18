@@ -10,7 +10,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "chokidar '**/*.elm' -c 'elm make main.elm --output elm.compiled.js' --initial"
+    "watch": "chokidar '**/*.elm' -c 'elm make main.elm --output main.js' --initial"
   },
   "author": "",
   "private": true,

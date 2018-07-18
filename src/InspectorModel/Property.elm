@@ -1,7 +1,7 @@
 module InspectorModel.Property exposing (..)
 
 
-type BaseType
+type PrimitiveValue
     = BaseString String
     | BaseFloat Float
     | BaseInt Int
@@ -12,9 +12,9 @@ type alias Type =
     }
 
 
-propertyBaseTypeToString : BaseType -> String
-propertyBaseTypeToString propertyBaseType =
-    case propertyBaseType of
+primitiveToString : PrimitiveValue -> String
+primitiveToString propertyPrimitiveValue =
+    case propertyPrimitiveValue of
         BaseString s ->
             s
 
@@ -27,7 +27,7 @@ propertyBaseTypeToString propertyBaseType =
 
 type alias Field =
     { name : String
-    , ptype : BaseType
+    , ptype : PrimitiveValue
     }
 
 
@@ -38,20 +38,20 @@ type alias Structure =
 
 
 type Value
-    = Base BaseType
+    = Base PrimitiveValue
     | Structured Structure
 
 
 shortFieldString : Field -> String
 shortFieldString field =
-    field.name ++ " = " ++ (propertyBaseTypeToString field.ptype)
+    field.name ++ " = " ++ (primitiveToString field.ptype)
 
 
-propertyValueToString : Value -> String
-propertyValueToString propertyValue =
+valueToString : Value -> String
+valueToString propertyValue =
     case propertyValue of
         Base b ->
-            propertyBaseTypeToString b
+            primitiveToString b
 
         Structured s ->
             String.join ", " (List.map shortFieldString s.fields)

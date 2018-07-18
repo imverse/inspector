@@ -1,4 +1,4 @@
-module View.PropertySheet exposing (..)
+module View.PropertySheet exposing (render)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -12,8 +12,8 @@ renderEntities entities =
     (View.Entity.renderEntityRows entities)
 
 
-renderPropertyTable : Model -> Html msg
-renderPropertyTable model =
+render : Model -> Html msg
+render model =
     table [ class "property-sheet" ]
         [ thead []
             [ td [] [ text "Name" ]

@@ -17,28 +17,28 @@ convertProperty propertyDto =
     Property.Property propertyDto.name (convertJsonObjectToValue propertyDto.value)
 
 
-intDecoder : Json.Decode.Decoder Property.BaseType
+intDecoder : Json.Decode.Decoder Property.PrimitiveValue
 intDecoder =
     Json.Decode.map Property.BaseInt Json.Decode.int
 
 
-floatDecoder : Json.Decode.Decoder Property.BaseType
+floatDecoder : Json.Decode.Decoder Property.PrimitiveValue
 floatDecoder =
     Json.Decode.map Property.BaseFloat Json.Decode.float
 
 
-stringDecoder : Json.Decode.Decoder Property.BaseType
+stringDecoder : Json.Decode.Decoder Property.PrimitiveValue
 stringDecoder =
     Json.Decode.map Property.BaseString Json.Decode.string
 
 
-propertyDecoder : Json.Decode.Decoder Property.BaseType
+propertyDecoder : Json.Decode.Decoder Property.PrimitiveValue
 propertyDecoder =
     Json.Decode.oneOf [ intDecoder, floatDecoder, stringDecoder ]
 
 
-stringToBaseType : String -> Json.Decode.Value -> Property.BaseType
-stringToBaseType typeName value =
+stringToPrimitiveValue : String -> Json.Decode.Value -> Property.PrimitiveValue
+stringToPrimitiveValue typeName value =
     let
         decodedResult =
             Json.Decode.decodeValue propertyDecoder value
@@ -56,7 +56,7 @@ stringToBaseType typeName value =
 
 convertStructureField : PortDto.Entity.ComponentField -> PortDto.Entity.Property -> Property.Field
 convertStructureField componentFieldDto property =
-    Property.Field property.name (stringToBaseType componentFieldDto.typeName property.value)
+    Property.Field property.name (stringToPrimitiveValue componentFieldDto.typeName property.value)
 
 
 convertStructure : PortDto.Entity.ComponentField -> Property.Structure

@@ -9,10 +9,10 @@ renderPropertyValue : Property.Value -> Html msg
 renderPropertyValue propertyValue =
     case propertyValue of
         Property.Base b ->
-            text (Property.propertyValueToString propertyValue)
+            text (Property.valueToString propertyValue)
 
         Property.Structured s ->
-            text (Property.propertyValueToString propertyValue)
+            text (Property.valueToString propertyValue)
 
 
 renderPropertyLine : Property.Property -> Html msg
@@ -54,7 +54,7 @@ renderProperty property =
 
 renderStructuredField : Property.Field -> Html msg
 renderStructuredField field =
-    tr [ class "structure-field" ] [ td [ class "label" ] [ text field.name ], td [ class "value" ] [ text (Property.propertyBaseTypeToString field.ptype) ] ]
+    tr [ class "structure-field" ] [ td [ class "label" ] [ text field.name ], td [ class "value" ] [ text (Property.primitiveToString field.ptype) ] ]
 
 
 renderProperties : List Property.Property -> List (Html msg)

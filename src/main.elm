@@ -17,7 +17,7 @@ subscriptions model =
 
 entityTable : Model -> Html msg
 entityTable model =
-    (View.PropertySheet.renderPropertyTable model)
+    (View.PropertySheet.render model)
 
 
 view : Model -> Html Msg

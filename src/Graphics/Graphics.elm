@@ -43,6 +43,9 @@ iconNameFromType ptype =
         "SpaceGlider" ->
             "spaceship"
 
+        "Ground" ->
+            "terrain"
+
         _ ->
             "generic"
 
@@ -57,10 +60,10 @@ render entities =
                 (\entity ->
                     let
                         x =
-                            entity.position.x * 80.0
+                            entity.position.x * 40.0
 
                         y =
-                            entity.position.z * 80.0
+                            entity.position.z * 40.0
 
                         iconName =
                             iconNameFromType entity.ptype
