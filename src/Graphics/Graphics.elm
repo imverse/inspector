@@ -1,4 +1,13 @@
-module Graphics.Graphics exposing (..)
+module Graphics.Graphics exposing (render)
+
+{-| This library renders entities using svg.
+
+
+# Render
+
+@docs render
+
+-}
 
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
@@ -38,6 +47,8 @@ iconNameFromType ptype =
             "generic"
 
 
+{-| Render entities both as svg icons and a property sheet.
+-}
 render : List Entity -> Html.Html msg
 render entities =
     let

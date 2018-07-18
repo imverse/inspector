@@ -1,14 +1,27 @@
 module PortDto.Entity exposing (..)
 
+{-| This library models Data Transfer Objects. Objects that are sent from the javascript world (replication-js).
+
+
+# Entity
+
+@docs Root, Entity, Position, Component, ComponentField, Property
+
+-}
+
 import Json.Decode
 
 
+{-| Property is a name and value (Int, String or Float)
+-}
 type alias Property =
     { name : String
     , value : Json.Decode.Value
     }
 
 
+{-| ComponentField containing the name and list of properties
+-}
 type alias ComponentField =
     { name : String
     , properties : List Property
@@ -16,6 +29,8 @@ type alias ComponentField =
     }
 
 
+{-| Component with the list of structures (ComponentField)s
+-}
 type alias Component =
     { typeName : String
     , name : String
@@ -23,6 +38,8 @@ type alias Component =
     }
 
 
+{-| World Position
+-}
 type alias Position =
     { x : Float
     , y : Float
@@ -30,6 +47,8 @@ type alias Position =
     }
 
 
+{-| An entity with a list of Components
+-}
 type alias Entity =
     { id : Int
     , typeName : String
@@ -38,6 +57,8 @@ type alias Entity =
     }
 
 
+{-| The root of the javascript object that is sent from replication
+-}
 type alias Root =
     { entities : List Entity
     }
