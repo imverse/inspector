@@ -3,13 +3,39 @@ module Graphics exposing (..)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Html
-import Html.Attributes
 import Entity
 
 
-entityIcon : Float -> Float -> Svg msg
-entityIcon x y =
-    Svg.path [ Svg.Attributes.d "M 256 0 l -256 256 l 256 256 l 256 -256 l -256 -256 z", Svg.Attributes.style "fill: #55aa55; stroke: #ff3322", Svg.Attributes.transform ("scale(0.05),translate(" ++ (toString x) ++ "," ++ (toString y) ++ ")") ] []
+type alias IconName =
+    String
+
+
+entityIcon : String -> Float -> Float -> Svg msg
+entityIcon iconName x y =
+    let
+        translateString =
+            "translate(" ++ (toString x) ++ "," ++ (toString y) ++ ")"
+
+        scaleString =
+            "scale(0.05)"
+
+        transformString =
+            String.join "," [ scaleString, translateString ]
+    in
+        Svg.use [ xlinkHref ("#" ++ iconName), Svg.Attributes.transform transformString ] []
+
+
+iconNameFromType : String -> IconName
+iconNameFromType ptype =
+    case ptype of
+        "AttackMech" ->
+            "robot"
+
+        "SpaceGlider" ->
+            "spaceship"
+
+        _ ->
+            "generic"
 
 
 render : List Entity.Entity -> Html.Html msg
@@ -24,8 +50,11 @@ render entities =
 
                         y =
                             entity.position.z * 80.0
+
+                        iconName =
+                            iconNameFromType entity.ptype
                     in
-                        (entityIcon x y)
+                        (entityIcon iconName x y)
                 )
                 entities
             )

@@ -1,12 +1,61 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <link rel="stylesheet" href="style.css"></link>
+</head>
+
+<body></body>
 <div id="main"></div>
 <script src="main.js"></script>
 <script type=module src="replication.js"></script>
+<svg>
+    <def>
+        <g id="robot">
+            <!-- Icon made by Freepik http://www.freepik.com/ from www.flaticon.com  -->
+            <polygon style="fill:#5A5A5A;" points="136,301 30,301 30,196 60,196 60,271 136,271 " />
+            <polygon style="fill:#444444;" points="482,301 376,301 376,271 452,271 452,196 482,196 " />
+            <rect x="211" y="151" style="fill:#5A5A5A;" width="90" height="90" />
+            <rect x="256" y="151" style="fill:#444444;" width="45" height="90" />
+            <rect x="121" y="211" style="fill:#FF9100;" width="270" height="210" />
+            <rect x="256" y="211" style="fill:#FF7816;" width="135" height="210" />
+            <path style="fill:#FF9100;" d="M151,0v181h210V0H151z" />
+            <rect x="256" style="fill:#FF7816;" width="105" height="181" />
+            <rect x="211" y="61" style="fill:#5A5A5A;" width="30" height="30" />
+            <rect x="271" y="61" style="fill:#444444;" width="30" height="30" />
+            <polygon style="fill:#929298;" points="90,211 0,211 0,136 30,136 30,181 60,181 60,136 90,136 " />
+            <polygon style="fill:#7C8388;" points="512,211 422,211 422,136 452,136 452,181 482,181 482,136 512,136 " />
+            <rect x="181" y="271" style="fill:#5A5A5A;" width="60" height="30" />
+            <rect x="271" y="271" style="fill:#444444;" width="60" height="30" />
+            <path style="fill:#5A5A5A;" d="M61,361v151h150V361H61z" />
+            <g>
+                <rect x="136" y="361" style="fill:#444444;" width="75" height="151" />
+                <path style="fill:#444444;" d="M91,391v91h90v-91H91z" />
+            </g>
+            <rect x="136" y="391" style="fill:#292929;" width="45" height="91" />
+            <rect x="76" y="421" style="fill:#5A5A5A;" width="120" height="30" />
+            <rect x="136" y="421" style="fill:#444444;" width="60" height="30" />
+            <path style="fill:#5A5A5A;" d="M301,361v151h150V361H301z" />
+            <g>
+                <rect x="376" y="361" style="fill:#444444;" width="75" height="151" />
+                <path style="fill:#444444;" d="M331,391v91h90v-91H331z" />
+            </g>
+            <rect x="376" y="391" style="fill:#292929;" width="45" height="91" />
+            <rect x="316" y="421" style="fill:#5A5A5A;" width="120" height="30" />
+            <rect x="376" y="421" style="fill:#444444;" width="60" height="30" />
+        </g>
+        <g id="spaceship" transform="scale(3.0)">
+            <!-- Icon made by Freepik http://www.freepik.com/ from www.flaticon.com  -->
+            <path d="M73.778,188.362l-37.454,5.717c-2.978,0.451-5.941-0.918-7.52-3.484L14.838,167.89c-0.779-1.267-1.135-2.709-1.094-4.144  c-0.006-0.12-0.018-0.237-0.018-0.358v-48.03c0-4.143,3.358-7.5,7.5-7.5s7.5,3.357,7.5,7.5v19.927L58.71,81.887l15.068,25.715  V188.362z M196.934,107.857c-4.143,0-7.5,3.357-7.5,7.5v19.927l-29.983-53.397l-15.068,25.716v80.76l37.454,5.717  c2.976,0.452,5.941-0.918,7.521-3.485l13.965-22.705c0.779-1.266,1.134-2.708,1.093-4.143c0.006-0.12,0.018-0.237,0.018-0.358  v-48.03C204.434,111.215,201.076,107.857,196.934,107.857z M129.383,188.679l-12.803,9.547v12.434c0,4.143-3.357,7.5-7.5,7.5  c-4.142,0-7.5-3.357-7.5-7.5v-12.434l-12.803-9.547v-83.112c0-1.333-0.355-2.642-1.029-3.792l-20.531-35.04l35.323-62.907  C103.868,1.464,106.369,0,109.08,0c2.712,0,5.212,1.464,6.54,3.828l35.323,62.907l-20.531,35.04  c-0.674,1.15-1.029,2.459-1.029,3.792V188.679z M129.348,68.613c3.194-2.636,3.647-7.363,1.012-10.559  c-0.868-1.053-8.839-10.284-21.09-10.284c-12.123,0-20.421,9.083-21.327,10.119c-2.728,3.117-2.432,7.877,0.686,10.604  c1.429,1.25,3.193,1.865,4.949,1.865c2.075,0,4.138-0.859,5.615-2.548c1.268-1.402,5.55-5.041,10.078-5.041  c5.316,0,9.519,4.831,9.519,4.831C121.426,70.796,126.153,71.249,129.348,68.613z"
+                fill="#933EC5" />
+        </g>
+        </g>
+    </def>
+</svg>
 <script>
     var node = document.getElementById('main');
     app = Elm.Main.embed(node);
 </script>
+</body>
 
 </html>

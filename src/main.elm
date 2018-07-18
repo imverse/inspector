@@ -73,13 +73,6 @@ testEntities name =
     ]
 
 
-hackInsertCssLink : Html msg
-hackInsertCssLink =
-    node "link"
-        [ rel "stylesheet", href "style.css" ]
-        []
-
-
 entityTable : Model -> Html msg
 entityTable model =
     let
@@ -98,7 +91,7 @@ view model =
         graphics =
             div [ class "viewer" ] [ Graphics.render model.entities ]
     in
-        div [ class "content" ] [ hackInsertCssLink, graphics, propertySheet ]
+        div [ class "content" ] [ graphics, propertySheet ]
 
 
 type Msg
