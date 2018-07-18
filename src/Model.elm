@@ -1,11 +1,11 @@
-module Model exposing (Model, setEntities, setDebugClickedSvgIcon)
+module Model exposing (Model, setEntities, setSelectedEntityId)
 
 import InspectorModel.Entity exposing (Entity)
 
 
 type alias Model =
     { entities : List Entity
-    , debugClickedMe : Bool
+    , selectedEntityId : Int
     }
 
 
@@ -14,6 +14,6 @@ setEntities newEntities model =
     { model | entities = newEntities }
 
 
-setDebugClickedSvgIcon : Bool -> Model -> Model
-setDebugClickedSvgIcon newClick model =
-    { model | debugClickedMe = newClick }
+setSelectedEntityId : Int -> Model -> Model
+setSelectedEntityId newClick model =
+    { model | selectedEntityId = newClick }

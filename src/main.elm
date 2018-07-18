@@ -9,6 +9,7 @@ import EntityDtoToModel
 import Graphics.Graphics as Graphics
 import Message
 import Debug
+import InspectorModel.Entity as Entity
 
 
 subscriptions : Model -> Sub Message.Msg
@@ -16,9 +17,26 @@ subscriptions model =
     Ports.replicationToElm Message.UpdateStr
 
 
+filteredEntities : List Entity.Entity -> Int -> List Entity.Entity
+filteredEntities entities id =
+    case id of
+        0 ->
+            entities
+
+        _ ->
+            List.filter (\entity -> entity.id == id) entities
+
+
 entityTable : Model -> Html msg
 entityTable model =
-    (View.PropertySheet.render model)
+    let
+        entitiesToRender =
+            filteredEntities model.entities model.selectedEntityId
+
+        filteredModel =
+            Model entitiesToRender model.selectedEntityId
+    in
+        (View.PropertySheet.render filteredModel)
 
 
 view : Model -> Html Message.Msg
@@ -35,7 +53,7 @@ view model =
 
 initModel : Model
 initModel =
-    Model [] False
+    Model [] 0
 
 
 init : ( Model, Cmd Message.Msg )
@@ -57,7 +75,7 @@ update msg model =
         Message.ClickedSvgIcon i ->
             let
                 newModel =
-                    model |> Model.setDebugClickedSvgIcon True
+                    model |> Model.setSelectedEntityId i
 
                 fake =
                     Debug.log "Clicked" i

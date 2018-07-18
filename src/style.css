@@ -7,11 +7,12 @@
 
 html {
     background-color: #222222;
+    width: 100%;
+    height: 100%;
 }
 
 body {
     display: flex;
-    width: 100%;
 }
 
 svg {
@@ -21,6 +22,7 @@ svg {
 div.icon {
     position: absolute;
     margin: auto;
+    cursor: pointer;
 }
 
 svg.icon-content {
@@ -51,8 +53,9 @@ div.content {
 div.viewer {
     display: flex;
     flex: 4 4 auto;
-    align-self: auto;
     background-color: #616161;
+    height: 1200px;
+    margin: auto;
 }
 
 div.property-sheet {
@@ -70,6 +73,7 @@ svg.viewer {
 table.property-sheet {
     width: 100%;
     user-select: none;
+    -moz-user-select: -moz-none;
 }
 
 thead td .property-sheet {
@@ -81,9 +85,14 @@ thead td .property-sheet {
     font-weight: bold;
 }
 
+td.label {
+    user-select: none;
+}
+
 .structure-field .label {
     text-indent: 20px;
     color: #777777;
+    user-select: none;
 }
 
 .entity {

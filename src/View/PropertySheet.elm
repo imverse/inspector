@@ -19,7 +19,7 @@ render model =
         [ thead []
             [ td []
                 [ text
-                    ("Name" ++ (toString model.debugClickedMe))
+                    ("Name" ++ (toString model.selectedEntityId))
                 ]
             , td [] [ text "Value" ]
             ]
