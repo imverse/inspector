@@ -11,27 +11,36 @@ module Graphics.Graphics exposing (render)
 
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
-import Html
+import Html exposing (..)
+import Html.Attributes
+import Html.Events
 import InspectorModel.Entity exposing (Entity)
+import Message
 
 
 type alias IconName =
     String
 
 
-entityIcon : String -> Float -> Float -> Svg msg
+entityIcon : String -> Float -> Float -> Svg Message.Msg
 entityIcon iconName x y =
     let
         translateString =
-            "translate(" ++ (toString x) ++ "," ++ (toString y) ++ ")"
+            "left: " ++ (toString x) ++ ", top:" ++ (toString y) ++ ")"
 
         scaleString =
             "scale(0.05)"
 
         transformString =
             String.join "," [ scaleString, translateString ]
+
+        attributes =
+            [ ( "left", ((toString x) ++ "px") ), ( "top", ((toString y) ++ "px") ) ]
+
+        iconReference =
+            Svg.use [ xlinkHref ("#" ++ iconName), Svg.Attributes.transform "scale(0.05)" ] []
     in
-        Svg.use [ xlinkHref ("#" ++ iconName), Svg.Attributes.transform transformString ] []
+        div [ class "icon", Html.Attributes.style attributes, Html.Events.onClick (Message.ClickedSvgIcon 2) ] [ Svg.svg [ class "icon-content", Svg.Attributes.viewBox "0 0 32 32" ] [ iconReference ] ]
 
 
 iconNameFromType : String -> IconName
@@ -52,7 +61,7 @@ iconNameFromType ptype =
 
 {-| Render entities both as svg icons and a property sheet.
 -}
-render : List Entity -> Html.Html msg
+render : List Entity -> Html.Html Message.Msg
 render entities =
     let
         allIcons =
@@ -60,10 +69,10 @@ render entities =
                 (\entity ->
                     let
                         x =
-                            entity.position.x * 40.0
+                            entity.position.x * 2.0 + 32
 
                         y =
-                            entity.position.z * 40.0
+                            entity.position.z * 2.0 + 32
 
                         iconName =
                             iconNameFromType entity.ptype
@@ -73,4 +82,5 @@ render entities =
                 entities
             )
     in
-        svg [ class "viewer", fill "white", stroke "black", strokeWidth "3" ] allIcons
+        {- svg [ class "viewer", fill "white", stroke "black", strokeWidth "3" ] allIcons -}
+        div [ class "icons" ] allIcons

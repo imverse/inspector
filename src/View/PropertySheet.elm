@@ -14,9 +14,13 @@ renderEntities entities =
 
 render : Model -> Html msg
 render model =
-    table [ class "property-sheet" ]
+    table
+        [ class "property-sheet" ]
         [ thead []
-            [ td [] [ text "Name" ]
+            [ td []
+                [ text
+                    ("Name" ++ (toString model.debugClickedMe))
+                ]
             , td [] [ text "Value" ]
             ]
         , tbody []

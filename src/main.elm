@@ -4,15 +4,16 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import View.PropertySheet
 import Ports
-import PortDto.Entity
 import Model exposing (Model)
 import EntityDtoToModel
 import Graphics.Graphics as Graphics
+import Message
+import Debug
 
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Sub Message.Msg
 subscriptions model =
-    Ports.replicationToElm UpdateStr
+    Ports.replicationToElm Message.UpdateStr
 
 
 entityTable : Model -> Html msg
@@ -20,7 +21,7 @@ entityTable model =
     (View.PropertySheet.render model)
 
 
-view : Model -> Html Msg
+view : Model -> Html Message.Msg
 view model =
     let
         propertySheet =
@@ -32,28 +33,39 @@ view model =
         div [ class "content" ] [ graphics, propertySheet ]
 
 
-type Msg
-    = UpdateStr PortDto.Entity.Root
-
-
 initModel : Model
 initModel =
-    Model []
+    Model [] False
 
 
-init : ( Model, Cmd Msg )
+init : ( Model, Cmd Message.Msg )
 init =
     ( initModel, Cmd.none )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Message.Msg -> Model -> ( Model, Cmd Message.Msg )
 update msg model =
     case msg of
-        UpdateStr entityDto ->
-            ( Model (EntityDtoToModel.convert entityDto), Cmd.none )
+        Message.UpdateStr entityDto ->
+            let
+                newModel =
+                    model
+                        |> Model.setEntities (EntityDtoToModel.convert entityDto)
+            in
+                ( newModel, Cmd.none )
+
+        Message.ClickedSvgIcon i ->
+            let
+                newModel =
+                    model |> Model.setDebugClickedSvgIcon True
+
+                fake =
+                    Debug.log "Clicked" i
+            in
+                ( newModel, Cmd.none )
 
 
-main : Program Never Model Msg
+main : Program Never Model Message.Msg
 main =
     program
         { init = init
