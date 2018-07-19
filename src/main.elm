@@ -6,9 +6,10 @@ import View.PropertySheet
 import Ports
 import Model exposing (Model)
 import EntityDtoToModel
-import Graphics.Graphics as Graphics
+import View.WorldViewer.View
+import View.WorldViewer.Model
+import View.WorldViewer.Update
 import Message
-import Debug
 import InspectorModel.Entity as Entity
 import Point
 
@@ -32,10 +33,10 @@ entityTable : Model -> Html msg
 entityTable model =
     let
         entitiesToRender =
-            filteredEntities model.entities model.selectedEntityId
+            filteredEntities model.entities model.worldViewer.selectedEntityId
 
         filteredModel =
-            Model entitiesToRender model.selectedEntityId model.viewerZoomLevel model.pointerIsTouchingViewer ( 0, 0 ) model.viewerOffset model.temporaryViewerOffset
+            Model entitiesToRender model.worldViewer
     in
         View.PropertySheet.render filteredModel
 
@@ -47,17 +48,17 @@ view model =
             div [ class "property-sheet" ] [ (entityTable model) ]
 
         viewerOffset =
-            Point.add model.viewerOffset model.temporaryViewerOffset
+            Point.add model.worldViewer.viewportOffset model.worldViewer.temporaryViewportOffset
 
         graphics =
-            div [ class "viewer" ] [ Graphics.render model.pointerIsTouchingViewer model.viewerZoomLevel viewerOffset model.entities ]
+            div [ class "viewer" ] [ View.WorldViewer.View.render model.worldViewer model.entities ]
     in
-        div [ class "root" ] [ div [ class "content" ] [ graphics, propertySheet ] ]
+        div [ class "root" ] [ div [ class "content" ] [ (Html.map Message.WorldViewerMsg graphics), propertySheet ] ]
 
 
 initModel : Model
 initModel =
-    Model [] 0 2.0 False ( 0, 0 ) ( 0, 0 ) ( 0, 0 )
+    Model [] (View.WorldViewer.Model.Model 0 2.0 False ( 0, 0 ) ( 0, 0 ) ( 0, 0 ))
 
 
 init : ( Model, Cmd Message.Msg )
@@ -76,63 +77,16 @@ update msg model =
             in
                 ( newModel, Cmd.none )
 
-        Message.ClickedSvgIcon i ->
+        Message.WorldViewerMsg worldViewerMsg ->
             let
-                newModel =
-                    model |> Model.setSelectedEntityId i
+                ( updatedModel, newMsg ) =
+                    (View.WorldViewer.Update.update worldViewerMsg model.worldViewer)
 
-                fake =
-                    Debug.log "Clicked" i
+                newModel =
+                    model
+                        |> Model.setWorldViewer updatedModel
             in
                 ( newModel, Cmd.none )
-
-        Message.ZoomViewer zoomLevel ->
-            ( model |> Model.setViewerZoomLevel zoomLevel, Cmd.none )
-
-        Message.PointerStartTouchingViewer position ->
-            let
-                fake =
-                    Debug.log "start" position
-            in
-                ( model
-                    |> Model.setPointerIsTouchingViewer True
-                    |> Model.setStartTouchPosition position
-                , Cmd.none
-                )
-
-        Message.PointerStoppedTouchingViewer position ->
-            let
-                fake =
-                    Debug.log "stopped" position
-
-                diff =
-                    Point.sub model.startTouchPosition position
-
-                newOffset =
-                    Point.add model.viewerOffset model.temporaryViewerOffset
-            in
-                ( model
-                    |> Model.setPointerIsTouchingViewer False
-                    |> Model.setViewerOffset newOffset
-                    |> Model.setTemporaryViewerOffset ( 0, 0 )
-                , Cmd.none
-                )
-
-        Message.PointerDraggingViewer position ->
-            let
-                diff =
-                    Point.sub model.startTouchPosition position
-            in
-                if model.pointerIsTouchingViewer then
-                    ( model
-                        |> Model.setTemporaryViewerOffset diff
-                    , Cmd.none
-                    )
-                else
-                    ( model, Cmd.none )
-
-        Message.Nope ->
-            ( model, Cmd.none )
 
 
 main : Program Never Model Message.Msg

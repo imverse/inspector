@@ -1,13 +1,9 @@
 module Message exposing (..)
 
 import PortDto.Entity
+import View.WorldViewer.Message
 
 
 type Msg
     = UpdateStr PortDto.Entity.Root
-    | ClickedSvgIcon Int
-    | ZoomViewer Float
-    | PointerStartTouchingViewer ( Float, Float )
-    | PointerStoppedTouchingViewer ( Float, Float )
-    | PointerDraggingViewer ( Float, Float )
-    | Nope
+    | WorldViewerMsg View.WorldViewer.Message.Msg

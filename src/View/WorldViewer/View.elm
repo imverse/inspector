@@ -1,4 +1,4 @@
-module Graphics.Graphics exposing (render)
+module View.WorldViewer.View exposing (render)
 
 {-| This library renders entities using svg.
 
@@ -15,11 +15,12 @@ import Html exposing (..)
 import Html.Attributes
 import Html.Events
 import InspectorModel.Entity exposing (Entity)
-import Message
 import Json.Decode
 import Wheel
 import Mouse
 import Point
+import View.WorldViewer.Model exposing (Model)
+import View.WorldViewer.Message as Message
 
 
 type alias IconName =
@@ -104,24 +105,27 @@ backgroundSurface zoom children =
 
 {-| Render entities both as svg icons and a property sheet.
 -}
-render : Bool -> Float -> Point.Point -> List Entity -> Html.Html Message.Msg
-render isTouchingViewerSurface zoomLevel offset entities =
+render : Model -> List Entity -> Html.Html Message.Msg
+render model entities =
     let
         allIcons =
             (List.map
                 (\entity ->
                     let
                         x =
-                            entity.position.x * zoomLevel + 32
+                            entity.position.x * model.zoomLevel + 32
 
                         y =
-                            entity.position.z * zoomLevel + 32
+                            entity.position.z * model.zoomLevel + 32
 
                         entityPos =
                             ( x, y )
 
+                        totalOffset =
+                            Point.add model.viewportOffset model.temporaryViewportOffset
+
                         adjustedPos =
-                            Point.sub entityPos offset
+                            Point.sub entityPos totalOffset
 
                         iconName =
                             iconNameFromType entity.ptype
@@ -131,4 +135,4 @@ render isTouchingViewerSurface zoomLevel offset entities =
                 entities
             )
     in
-        backgroundSurface zoomLevel allIcons
+        backgroundSurface model.zoomLevel allIcons
