@@ -10,6 +10,7 @@ import Graphics.Graphics as Graphics
 import Message
 import Debug
 import InspectorModel.Entity as Entity
+import Point
 
 
 subscriptions : Model -> Sub Message.Msg
@@ -34,9 +35,9 @@ entityTable model =
             filteredEntities model.entities model.selectedEntityId
 
         filteredModel =
-            Model entitiesToRender model.selectedEntityId
+            Model entitiesToRender model.selectedEntityId model.viewerZoomLevel model.pointerIsTouchingViewer ( 0, 0 ) model.viewerOffset model.temporaryViewerOffset
     in
-        (View.PropertySheet.render filteredModel)
+        View.PropertySheet.render filteredModel
 
 
 view : Model -> Html Message.Msg
@@ -45,15 +46,18 @@ view model =
         propertySheet =
             div [ class "property-sheet" ] [ (entityTable model) ]
 
+        viewerOffset =
+            Point.add model.viewerOffset model.temporaryViewerOffset
+
         graphics =
-            div [ class "viewer" ] [ Graphics.render model.entities ]
+            div [ class "viewer" ] [ Graphics.render model.pointerIsTouchingViewer model.viewerZoomLevel viewerOffset model.entities ]
     in
-        div [ class "content" ] [ graphics, propertySheet ]
+        div [ class "root" ] [ div [ class "content" ] [ graphics, propertySheet ] ]
 
 
 initModel : Model
 initModel =
-    Model [] 0
+    Model [] 0 2.0 False ( 0, 0 ) ( 0, 0 ) ( 0, 0 )
 
 
 init : ( Model, Cmd Message.Msg )
@@ -81,6 +85,54 @@ update msg model =
                     Debug.log "Clicked" i
             in
                 ( newModel, Cmd.none )
+
+        Message.ZoomViewer zoomLevel ->
+            ( model |> Model.setViewerZoomLevel zoomLevel, Cmd.none )
+
+        Message.PointerStartTouchingViewer position ->
+            let
+                fake =
+                    Debug.log "start" position
+            in
+                ( model
+                    |> Model.setPointerIsTouchingViewer True
+                    |> Model.setStartTouchPosition position
+                , Cmd.none
+                )
+
+        Message.PointerStoppedTouchingViewer position ->
+            let
+                fake =
+                    Debug.log "stopped" position
+
+                diff =
+                    Point.sub model.startTouchPosition position
+
+                newOffset =
+                    Point.add model.viewerOffset model.temporaryViewerOffset
+            in
+                ( model
+                    |> Model.setPointerIsTouchingViewer False
+                    |> Model.setViewerOffset newOffset
+                    |> Model.setTemporaryViewerOffset ( 0, 0 )
+                , Cmd.none
+                )
+
+        Message.PointerDraggingViewer position ->
+            let
+                diff =
+                    Point.sub model.startTouchPosition position
+            in
+                if model.pointerIsTouchingViewer then
+                    ( model
+                        |> Model.setTemporaryViewerOffset diff
+                    , Cmd.none
+                    )
+                else
+                    ( model, Cmd.none )
+
+        Message.Nope ->
+            ( model, Cmd.none )
 
 
 main : Program Never Model Message.Msg

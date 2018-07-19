@@ -17,17 +17,20 @@ import Html.Events
 import InspectorModel.Entity exposing (Entity)
 import Message
 import Json.Decode
+import Wheel
+import Mouse
+import Point
 
 
 type alias IconName =
     String
 
 
-entityIcon : Int -> String -> Float -> Float -> Svg Message.Msg
-entityIcon id iconName x y =
+entityIcon : Int -> String -> Point.Point -> Html.Html Message.Msg
+entityIcon id iconName position =
     let
         translateString =
-            "left: " ++ (toString x) ++ ", top:" ++ (toString y) ++ ")"
+            "left: " ++ (toString <| Point.x position) ++ ", top:" ++ (toString <| Point.y position) ++ ")"
 
         scaleString =
             "scale(0.05)"
@@ -36,7 +39,7 @@ entityIcon id iconName x y =
             String.join "," [ scaleString, translateString ]
 
         attributes =
-            [ ( "left", ((toString x) ++ "px") ), ( "top", ((toString y) ++ "px") ) ]
+            [ ( "left", ((toString (Point.x position)) ++ "px") ), ( "top", ((toString (Point.y position)) ++ "px") ) ]
 
         iconReference =
             Svg.use [ xlinkHref ("#" ++ iconName), Svg.Attributes.transform "scale(0.05)" ] []
@@ -71,28 +74,61 @@ iconNameFromType ptype =
             "generic"
 
 
+handleMouseDown : Float -> Mouse.Event -> Message.Msg
+handleMouseDown dummy event =
+    Message.PointerStartTouchingViewer event.clientPos
+
+
+mouseCoordinates : Mouse.Event -> ( Float, Float )
+mouseCoordinates event =
+    event.clientPos
+
+
+backgroundSurface : Float -> List (Html.Html Message.Msg) -> Html.Html Message.Msg
+backgroundSurface zoom children =
+    let
+        wheelEvent =
+            (Wheel.onWheel (\event -> (Message.ZoomViewer <| zoom + event.deltaY * 0.01)))
+
+        mouseDown =
+            (Mouse.onDown (Message.PointerStartTouchingViewer << mouseCoordinates))
+
+        mouseUp =
+            (Mouse.onUp (Message.PointerStoppedTouchingViewer << mouseCoordinates))
+
+        mouseMove =
+            (Mouse.onMove (Message.PointerDraggingViewer << mouseCoordinates))
+    in
+        div [ class "icons", Html.Events.onClick (Message.ClickedSvgIcon 0), wheelEvent, mouseUp, mouseDown, mouseMove ] children
+
+
 {-| Render entities both as svg icons and a property sheet.
 -}
-render : List Entity -> Html.Html Message.Msg
-render entities =
+render : Bool -> Float -> Point.Point -> List Entity -> Html.Html Message.Msg
+render isTouchingViewerSurface zoomLevel offset entities =
     let
         allIcons =
             (List.map
                 (\entity ->
                     let
                         x =
-                            entity.position.x * 2.0 + 32
+                            entity.position.x * zoomLevel + 32
 
                         y =
-                            entity.position.z * 2.0 + 32
+                            entity.position.z * zoomLevel + 32
+
+                        entityPos =
+                            ( x, y )
+
+                        adjustedPos =
+                            Point.sub entityPos offset
 
                         iconName =
                             iconNameFromType entity.ptype
                     in
-                        (entityIcon entity.id iconName x y)
+                        (entityIcon entity.id iconName adjustedPos)
                 )
                 entities
             )
     in
-        {- svg [ class "viewer", fill "white", stroke "black", strokeWidth "3" ] allIcons -}
-        div [ class "icons", Html.Events.onClick (Message.ClickedSvgIcon 0) ] allIcons
+        backgroundSurface zoomLevel allIcons

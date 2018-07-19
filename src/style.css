@@ -36,8 +36,19 @@ div.icons {
 }
 
 div#main {
-    display: flex;
     width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+div.root {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: stretch;
+    flex: 1 1 auto;
 }
 
 div.content {
@@ -47,21 +58,22 @@ div.content {
     justify-content: center;
     align-content: stretch;
     align-items: stretch;
+    flex: 1 1 auto;
     width: 100%;
+    height: 1000px;
 }
 
 div.viewer {
     display: flex;
     flex: 4 4 auto;
     background-color: #616161;
-    height: 1200px;
-    margin: auto;
 }
 
 div.property-sheet {
     display: flex;
     flex: 1 1 auto;
     align-self: auto;
+    overflow: scroll;
 }
 
 svg.viewer {

@@ -19,7 +19,7 @@ render model =
         [ thead []
             [ td []
                 [ text
-                    ("Name" ++ (toString model.selectedEntityId))
+                    ("Name" ++ (toString model.pointerIsTouchingViewer))
                 ]
             , td [] [ text "Value" ]
             ]
