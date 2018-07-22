@@ -5,7 +5,7 @@ import {
 
 import {
     calculateEntityHash
-} from 'replication-client-js/src/fnv.js';
+} from 'replication-client-js';
 
 import {
     ProtocolDefinition
