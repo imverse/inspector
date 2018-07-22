@@ -342,12 +342,12 @@ braces@^2.3.0, braces@^2.3.1:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-brisk-js@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/brisk-js/-/brisk-js-1.0.9.tgz#8fa0ef8fc38a559c83011c2fd98c55a77fead962"
+brisk-js@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/brisk-js/-/brisk-js-1.0.10.tgz#5ed00ddb97ae14e9549aad511a44b67bbe53dcce"
   dependencies:
-    js-brook "^1.0.13"
-    js-flux "^1.0.12"
+    js-brook "^1.0.14"
+    js-flux "^1.0.13"
 
 brorand@^1.0.1:
   version "1.1.0"
@@ -1437,16 +1437,16 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-js-brook@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/js-brook/-/js-brook-1.0.13.tgz#c95eab7e835d0fb18282cff193dac2344dd18330"
+js-brook@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/js-brook/-/js-brook-1.0.14.tgz#4e2f126dd7de56a0937ae907da6315eea5ce9268"
   dependencies:
     webpack "^4.16.1"
     webpack-cli "^3.1.0"
 
-js-flux@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/js-flux/-/js-flux-1.0.12.tgz#0f74d58ebc2ff57dc3f94d246f2e7f15854a73ab"
+js-flux@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/js-flux/-/js-flux-1.0.13.tgz#2491dd61e6365e55b97c6a151687cd5499d6ed9c"
 
 json-parse-better-errors@^1.0.2:
   version "1.0.2"
@@ -2176,9 +2176,9 @@ repeat-string@^1.5.2, repeat-string@^1.6.1:
 
 "replication-client-js@https://github.com/imverse/replication-client-js.git":
   version "1.0.1"
-  resolved "https://github.com/imverse/replication-client-js.git#2b5caedcefcb6e2d26bf08bf116302d4ba94c82f"
+  resolved "https://github.com/imverse/replication-client-js.git#203ac3d01812a7c6aa855a3c303450e1231024d8"
   dependencies:
-    brisk-js "^1.0.9"
+    brisk-js "^1.0.10"
 
 require-directory@^2.1.1:
   version "2.1.1"

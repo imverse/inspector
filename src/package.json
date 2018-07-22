@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "brisk-js": "^1.0.9",
     "replication-client-js": "https://github.com/imverse/replication-client-js.git"
   },
   "devDependencies": {
