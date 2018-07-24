@@ -17,7 +17,7 @@ class Log {
     }
 }
 
-const host = 'ws://127.0.0.1:32001';
+const host = 'ws://23.236.62.254:32001';
 const log = new Log();
 
 /**   A Cache for all entity types */
