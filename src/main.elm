@@ -45,13 +45,13 @@ view : Model -> Html Message.Msg
 view model =
     let
         propertySheet =
-            div [ class "property-sheet" ] [ (entityTable model) ]
+            div [ class "property-sheet-column" ] [ (entityTable model) ]
 
         viewerOffset =
             Point.add model.worldViewer.viewportOffset model.worldViewer.temporaryViewportOffset
 
         graphics =
-            div [ class "viewer" ] [ View.WorldViewer.View.render model.worldViewer model.entities ]
+            div [ class "viewer-column" ] [ View.WorldViewer.View.render model.worldViewer model.entities ]
     in
         div [ class "root" ] [ div [ class "content" ] [ (Html.map Message.WorldViewerMsg graphics), propertySheet ] ]
 

@@ -135,4 +135,4 @@ render model entities =
                 entities
             )
     in
-        backgroundSurface model.zoomLevel allIcons
+        Html.node "imverse-world-viewer" [] [ (backgroundSurface model.zoomLevel allIcons) ]

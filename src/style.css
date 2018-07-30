@@ -1,4 +1,4 @@
-.property-sheet {
+.property-sheet-column {
     background-color: #383838;
     color: #aaaaaa;
     font-family: 'Lucida Grande', 'Helvetica Neue', 'San Francisco';
@@ -31,8 +31,10 @@ svg.icon-content {
 }
 
 div.icons {
+    display: flex;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 div#main {
@@ -63,32 +65,45 @@ div.content {
     height: 1000px;
 }
 
-div.viewer {
+div.viewer-column {
     display: flex;
     flex: 4 4 auto;
     background-color: #616161;
 }
 
-div.property-sheet {
+imverse-entity-properties {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+imverse-world-viewer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+div.property-sheet-column {
     display: flex;
     flex: 1 1 auto;
     align-self: auto;
     overflow: scroll;
+    z-index: 10;
 }
 
-svg.viewer {
+svg.viewer-column {
     width: 100%;
     height: 100%;
     margin: 16px;
 }
 
-table.property-sheet {
+table.property-sheet-column {
     width: 100%;
     user-select: none;
     -moz-user-select: -moz-none;
 }
 
-thead td .property-sheet {
+thead td .property-sheet-column {
     width: 50%;
     background-color: #444444;
 }
@@ -109,6 +124,7 @@ td.label {
 
 .entity {
     background-color: #616161;
+    z-index: 1;
 }
 
 .entity .label {

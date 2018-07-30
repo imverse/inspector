@@ -14,15 +14,19 @@ renderEntities entities =
 
 render : Model -> Html msg
 render model =
-    table
-        [ class "property-sheet" ]
-        [ thead []
-            [ td []
-                [ text
-                    "Name"
+    let
+        t =
+            table
+                [ class "property-sheet" ]
+                [ thead []
+                    [ td []
+                        [ text
+                            "Name"
+                        ]
+                    , td [] [ text "Value" ]
+                    ]
+                , tbody []
+                    (renderEntities model.entities)
                 ]
-            , td [] [ text "Value" ]
-            ]
-        , tbody []
-            (renderEntities model.entities)
-        ]
+    in
+        node "imverse-entity-properties" [] [ t ]
