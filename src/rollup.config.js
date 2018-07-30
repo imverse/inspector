@@ -1,6 +1,6 @@
 // rollup.config.js
-import resolve from 'rollup-plugin-node-resolve';
 import commonJS from 'rollup-plugin-commonjs'
+import resolve from 'rollup-plugin-node-resolve';
 
 export default {
   input: 'index.js',
@@ -8,10 +8,7 @@ export default {
     file: 'dist/index.js',
     format: 'iife'
   },
-  plugins: [
-    resolve(),
-    commonJS({
-      include: 'node_modules/**'
-    })
-  ]
+  plugins: [resolve(), commonJS({
+    include: 'node_modules/**'
+  })]
 };
