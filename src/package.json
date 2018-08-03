@@ -2,7 +2,7 @@
   "name": "@imverse/inspector",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "files": ["dist/"],
   "dependencies": {
     "@imverse/replication-client-js": "^1.0.6"
