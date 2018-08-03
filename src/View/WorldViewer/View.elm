@@ -89,7 +89,7 @@ backgroundSurface : Float -> List (Html.Html Message.Msg) -> Html.Html Message.M
 backgroundSurface zoom children =
     let
         wheelEvent =
-            (Wheel.onWheel (\event -> (Message.ZoomViewer <| zoom + event.deltaY * 0.01)))
+            (Wheel.onWheel (\event -> (Message.ZoomViewer <| zoom - event.deltaY * 0.01)))
 
         mouseDown =
             (Mouse.onDown (Message.PointerStartTouchingViewer << mouseCoordinates))
