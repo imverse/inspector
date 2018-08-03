@@ -1,9 +1,11 @@
 {
   "name": "@imverse/inspector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "@imverse/replication-client-js": "^1.0.6"
   },
@@ -29,6 +31,5 @@
     "build:prod": "npm run build && npm run uglify && npm run dist"
   },
   "author": "",
-  "private": true,
   "license": ""
 }
