@@ -21,7 +21,7 @@
   "scripts": {
     "test": "npm run build:dev && elm-format --elm-version=0.18 --validate . && elm-test --verbose",
     "elm2esm": "node elm2esm main.js",
-    "make": "elm make main.elm --output main.js",
+    "make": "elm make src/Main.elm --output main.js --optimize",
     "watch": "chokidar '**/*.elm' -c 'npm run build' --initial",
     "build": "npm run make && npm run elm2esm && npm run rollup",
     "dist": "cpx index.html dist/ && cp style.css dist/",
