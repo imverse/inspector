@@ -1,10 +1,10 @@
 module EntityDtoToModel exposing (convert)
 
-import PortDto.Entity
-import InspectorModel.Entity as Entity
 import InspectorModel.Component as Component
+import InspectorModel.Entity as Entity
 import InspectorModel.Property as Property
 import Json.Decode
+import PortDto.Entity
 
 
 convertJsonObjectToValue : Json.Decode.Value -> Property.Value
@@ -51,7 +51,7 @@ stringToPrimitiveValue typeName value =
                 Err s ->
                     Property.BaseString s
     in
-        baseValue
+    baseValue
 
 
 convertStructureField : PortDto.Entity.ComponentField -> PortDto.Entity.Property -> Property.Field
@@ -61,7 +61,7 @@ convertStructureField componentFieldDto property =
 
 convertStructure : PortDto.Entity.ComponentField -> Property.Structure
 convertStructure componentFieldDto =
-    Property.Structure componentFieldDto.typeName (List.map (\x -> (convertStructureField componentFieldDto x)) componentFieldDto.properties)
+    Property.Structure componentFieldDto.typeName (List.map (\x -> convertStructureField componentFieldDto x) componentFieldDto.properties)
 
 
 convertComponentField : PortDto.Entity.ComponentField -> Component.Field

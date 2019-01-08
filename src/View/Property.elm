@@ -1,8 +1,8 @@
 module View.Property exposing (renderProperties, renderStructureBlock)
 
-import InspectorModel.Property as Property
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import InspectorModel.Property as Property
 
 
 renderPropertyValue : Property.Value -> Html msg
@@ -44,12 +44,12 @@ renderProperty property =
         base =
             renderPropertyLine property
     in
-        case property.value of
-            Property.Structured s ->
-                (List.concat [ [ base ], (renderStructureBlock s) ])
+    case property.value of
+        Property.Structured s ->
+            List.concat [ [ base ], renderStructureBlock s ]
 
-            Property.Base b ->
-                [ base ]
+        Property.Base b ->
+            [ base ]
 
 
 renderStructuredField : Property.Field -> Html msg

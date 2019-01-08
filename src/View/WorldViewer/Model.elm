@@ -1,4 +1,4 @@
-module View.WorldViewer.Model exposing (..)
+module View.WorldViewer.Model exposing (Model, setPointerIsDown, setSelectedEntityId, setStartPointerDownPosition, setTemporaryViewportOffset, setViewportOffset, setZoomLevel)
 
 import Point
 

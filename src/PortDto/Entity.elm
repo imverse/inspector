@@ -1,4 +1,4 @@
-module PortDto.Entity exposing (..)
+module PortDto.Entity exposing (Root, Entity, Position, Component, ComponentField, Property)
 
 {-| This library models Data Transfer Objects. Objects that are sent from the javascript world (replication-js).
 

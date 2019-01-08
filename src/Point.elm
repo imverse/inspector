@@ -1,4 +1,4 @@
-module Point exposing (..)
+module Point exposing (Point, add, sub, x, y)
 
 
 type alias Point =
@@ -14,7 +14,7 @@ add a b =
         y =
             Tuple.second a + Tuple.second b
     in
-        ( x, y )
+    ( x, y )
 
 
 sub : Point -> Point -> Point
@@ -26,7 +26,7 @@ sub a b =
         y =
             Tuple.second a - Tuple.second b
     in
-        ( x, y )
+    ( x, y )
 
 
 x : Point -> Float

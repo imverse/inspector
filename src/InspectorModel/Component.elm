@@ -1,4 +1,4 @@
-module InspectorModel.Component exposing (..)
+module InspectorModel.Component exposing (Component, Field)
 
 import InspectorModel.Property as Property
 

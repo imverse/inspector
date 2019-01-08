@@ -1,7 +1,7 @@
-module Model exposing (..)
+module Model exposing (Model, setEntities, setWorldViewer)
 
-import View.WorldViewer.Model
 import InspectorModel.Entity exposing (Entity)
+import View.WorldViewer.Model
 
 
 type alias Model =

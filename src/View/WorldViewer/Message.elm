@@ -1,4 +1,4 @@
-module View.WorldViewer.Message exposing (..)
+module View.WorldViewer.Message exposing (Msg(..))
 
 
 type Msg

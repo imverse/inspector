@@ -1,4 +1,7 @@
-module InspectorModel.Entity exposing (..)
+module InspectorModel.Entity exposing
+    ( Entity
+    , WorldPosition
+    )
 
 {-| This library models entities replicated from a replication server.
 

@@ -1,4 +1,4 @@
-module InspectorModel.Property exposing (..)
+module InspectorModel.Property exposing (Field, PrimitiveValue(..), Property, Structure, Type, Value(..), primitiveToString, shortFieldString, valueToString)
 
 
 type PrimitiveValue
@@ -19,10 +19,10 @@ primitiveToString propertyPrimitiveValue =
             s
 
         BaseInt i ->
-            (toString i)
+            toString i
 
         BaseFloat f ->
-            (toString f)
+            toString f
 
 
 type alias Field =
@@ -44,7 +44,7 @@ type Value
 
 shortFieldString : Field -> String
 shortFieldString field =
-    field.name ++ " = " ++ (primitiveToString field.ptype)
+    field.name ++ " = " ++ primitiveToString field.ptype
 
 
 valueToString : Value -> String

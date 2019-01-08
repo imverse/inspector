@@ -9,18 +9,18 @@ module View.WorldViewer.View exposing (render)
 
 -}
 
-import Svg exposing (..)
-import Svg.Attributes exposing (..)
 import Html exposing (..)
 import Html.Attributes
 import Html.Events
 import InspectorModel.Entity exposing (Entity)
 import Json.Decode
-import Wheel
 import Mouse
 import Point
-import View.WorldViewer.Model exposing (Model)
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
 import View.WorldViewer.Message as Message
+import View.WorldViewer.Model exposing (Model)
+import Wheel
 
 
 type alias IconName =
@@ -40,7 +40,7 @@ entityIcon id iconName position =
             String.join "," [ scaleString, translateString ]
 
         attributes =
-            [ ( "left", ((toString (Point.x position)) ++ "px") ), ( "top", ((toString (Point.y position)) ++ "px") ) ]
+            [ ( "left", toString (Point.x position) ++ "px" ), ( "top", toString (Point.y position) ++ "px" ) ]
 
         iconReference =
             Svg.use [ xlinkHref ("#" ++ iconName), Svg.Attributes.transform "scale(0.05)" ] []
@@ -56,7 +56,7 @@ entityIcon id iconName position =
         svgIcon =
             Svg.svg [ class "icon-content", Svg.Attributes.viewBox "0 0 32 32" ] [ iconReference ]
     in
-        div [ class "icon", Html.Attributes.style attributes, clickEvent ] [ svgIcon ]
+    div [ class "icon", Html.Attributes.style attributes, clickEvent ] [ svgIcon ]
 
 
 iconNameFromType : String -> IconName
@@ -89,18 +89,18 @@ backgroundSurface : Float -> List (Html.Html Message.Msg) -> Html.Html Message.M
 backgroundSurface zoom children =
     let
         wheelEvent =
-            (Wheel.onWheel (\event -> (Message.ZoomViewer <| zoom - event.deltaY * 0.01)))
+            Wheel.onWheel (\event -> Message.ZoomViewer <| zoom - event.deltaY * 0.01)
 
         mouseDown =
-            (Mouse.onDown (Message.PointerStartTouchingViewer << mouseCoordinates))
+            Mouse.onDown (Message.PointerStartTouchingViewer << mouseCoordinates)
 
         mouseUp =
-            (Mouse.onUp (Message.PointerStoppedTouchingViewer << mouseCoordinates))
+            Mouse.onUp (Message.PointerStoppedTouchingViewer << mouseCoordinates)
 
         mouseMove =
-            (Mouse.onMove (Message.PointerDraggingViewer << mouseCoordinates))
+            Mouse.onMove (Message.PointerDraggingViewer << mouseCoordinates)
     in
-        div [ class "icons", Html.Events.onClick (Message.ClickedSvgIcon 0), wheelEvent, mouseUp, mouseDown, mouseMove ] children
+    div [ class "icons", Html.Events.onClick (Message.ClickedSvgIcon 0), wheelEvent, mouseUp, mouseDown, mouseMove ] children
 
 
 {-| Render entities both as svg icons and a property sheet.
@@ -109,7 +109,7 @@ render : Model -> List Entity -> Html.Html Message.Msg
 render model entities =
     let
         allIcons =
-            (List.map
+            List.map
                 (\entity ->
                     let
                         x =
@@ -130,9 +130,8 @@ render model entities =
                         iconName =
                             iconNameFromType entity.ptype
                     in
-                        (entityIcon entity.id iconName adjustedPos)
+                    entityIcon entity.id iconName adjustedPos
                 )
                 entities
-            )
     in
-        Html.node "imverse-world-viewer" [] [ (backgroundSurface model.zoomLevel allIcons) ]
+    Html.node "imverse-world-viewer" [] [ backgroundSurface model.zoomLevel allIcons ]

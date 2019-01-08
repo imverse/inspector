@@ -1,4 +1,4 @@
-module Message exposing (..)
+module Message exposing (Msg(..))
 
 import PortDto.Entity
 import View.WorldViewer.Message

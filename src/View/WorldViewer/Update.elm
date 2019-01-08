@@ -1,8 +1,8 @@
-module View.WorldViewer.Update exposing (..)
+module View.WorldViewer.Update exposing (update)
 
+import Point
 import View.WorldViewer.Message as Message
 import View.WorldViewer.Model as Model
-import Point
 
 
 update : Message.Msg -> Model.Model -> ( Model.Model, Cmd Message.Msg )
@@ -13,7 +13,7 @@ update msg model =
                 newModel =
                     model |> Model.setSelectedEntityId i
             in
-                ( newModel, Cmd.none )
+            ( newModel, Cmd.none )
 
         Message.ZoomViewer zoomLevel ->
             ( model |> Model.setZoomLevel zoomLevel, Cmd.none )
@@ -33,22 +33,23 @@ update msg model =
                 newOffset =
                     Point.add model.viewportOffset model.temporaryViewportOffset
             in
-                ( model
-                    |> Model.setPointerIsDown False
-                    |> Model.setViewportOffset newOffset
-                    |> Model.setTemporaryViewportOffset ( 0, 0 )
-                , Cmd.none
-                )
+            ( model
+                |> Model.setPointerIsDown False
+                |> Model.setViewportOffset newOffset
+                |> Model.setTemporaryViewportOffset ( 0, 0 )
+            , Cmd.none
+            )
 
         Message.PointerDraggingViewer position ->
             let
                 diff =
                     Point.sub model.startPointerDownPosition position
             in
-                if model.pointerIsDown then
-                    ( model
-                        |> Model.setTemporaryViewportOffset diff
-                    , Cmd.none
-                    )
-                else
-                    ( model, Cmd.none )
+            if model.pointerIsDown then
+                ( model
+                    |> Model.setTemporaryViewportOffset diff
+                , Cmd.none
+                )
+
+            else
+                ( model, Cmd.none )

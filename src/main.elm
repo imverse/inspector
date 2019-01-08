@@ -1,17 +1,17 @@
-module Main exposing (..)
+module Main exposing (entityTable, filteredEntities, init, initModel, main, subscriptions, update, view)
 
+import EntityDtoToModel
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import View.PropertySheet
-import Ports
+import InspectorModel.Entity as Entity
+import Message
 import Model exposing (Model)
-import EntityDtoToModel
-import View.WorldViewer.View
+import Point
+import Ports
+import View.PropertySheet
 import View.WorldViewer.Model
 import View.WorldViewer.Update
-import Message
-import InspectorModel.Entity as Entity
-import Point
+import View.WorldViewer.View
 
 
 subscriptions : Model -> Sub Message.Msg
@@ -38,14 +38,14 @@ entityTable model =
         filteredModel =
             Model entitiesToRender model.worldViewer
     in
-        View.PropertySheet.render filteredModel
+    View.PropertySheet.render filteredModel
 
 
 view : Model -> Html Message.Msg
 view model =
     let
         propertySheet =
-            div [ class "property-sheet-column" ] [ (entityTable model) ]
+            div [ class "property-sheet-column" ] [ entityTable model ]
 
         viewerOffset =
             Point.add model.worldViewer.viewportOffset model.worldViewer.temporaryViewportOffset
@@ -53,7 +53,7 @@ view model =
         graphics =
             div [ class "viewer-column" ] [ View.WorldViewer.View.render model.worldViewer model.entities ]
     in
-        div [ class "root" ] [ div [ class "content" ] [ (Html.map Message.WorldViewerMsg graphics), propertySheet ] ]
+    div [ class "root" ] [ div [ class "content" ] [ Html.map Message.WorldViewerMsg graphics, propertySheet ] ]
 
 
 initModel : Model
@@ -75,18 +75,18 @@ update msg model =
                     model
                         |> Model.setEntities (EntityDtoToModel.convert entityDto)
             in
-                ( newModel, Cmd.none )
+            ( newModel, Cmd.none )
 
         Message.WorldViewerMsg worldViewerMsg ->
             let
                 ( updatedModel, newMsg ) =
-                    (View.WorldViewer.Update.update worldViewerMsg model.worldViewer)
+                    View.WorldViewer.Update.update worldViewerMsg model.worldViewer
 
                 newModel =
                     model
                         |> Model.setWorldViewer updatedModel
             in
-                ( newModel, Cmd.none )
+            ( newModel, Cmd.none )
 
 
 main : Program Never Model Message.Msg
