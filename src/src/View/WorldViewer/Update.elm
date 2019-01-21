@@ -36,7 +36,7 @@ update msg model =
             ( model
                 |> Model.setPointerIsDown False
                 |> Model.setViewportOffset newOffset
-                |> Model.setTemporaryViewportOffset ( 0, 0 )
+                |> Model.setTemporaryViewportOffset { x = 0, y = 0 }
             , Cmd.none
             )
 

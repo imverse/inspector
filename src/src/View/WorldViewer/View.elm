@@ -9,18 +9,17 @@ module View.WorldViewer.View exposing (render)
 
 -}
 
+import Browser.Events exposing (..)
 import Html exposing (..)
 import Html.Attributes
 import Html.Events
 import InspectorModel.Entity exposing (Entity)
-import Json.Decode
-import Mouse
+import Json.Decode as Decode exposing (Decoder)
 import Point
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import View.WorldViewer.Message as Message
 import View.WorldViewer.Model exposing (Model)
-import Wheel
 
 
 type alias IconName =
@@ -31,7 +30,7 @@ entityIcon : Int -> String -> Point.Point -> Html.Html Message.Msg
 entityIcon id iconName position =
     let
         translateString =
-            "left: " ++ (toString <| Point.x position) ++ ", top:" ++ (toString <| Point.y position) ++ ")"
+            "left: " ++ (String.fromFloat <| Point.xCoordinate position) ++ ", top:" ++ (String.fromFloat <| Point.yCoordinate position) ++ ")"
 
         scaleString =
             "scale(0.05)"
@@ -39,8 +38,17 @@ entityIcon id iconName position =
         transformString =
             String.join "," [ scaleString, translateString ]
 
+        xString =
+            String.fromFloat (Point.xCoordinate position) ++ "px"
+
+        yString =
+            String.fromFloat (Point.yCoordinate position) ++ "px"
+
         attributes =
-            [ ( "left", toString (Point.x position) ++ "px" ), ( "top", toString (Point.y position) ++ "px" ) ]
+            [ class "icon"
+            , Html.Attributes.style "left" xString
+            , Html.Attributes.style "top" yString
+            ]
 
         iconReference =
             Svg.use [ xlinkHref ("#" ++ iconName), Svg.Attributes.transform "scale(0.05)" ] []
@@ -50,13 +58,14 @@ entityIcon id iconName position =
             , preventDefault = True
             }
 
-        clickEvent =
-            Html.Events.onWithOptions "click" clickOptions (Json.Decode.succeed (Message.ClickedSvgIcon id))
-
+        {-
+           clickEvent =
+               Html.Events.custom "click" clickOptions (Json.Decode.succeed (Message.ClickedSvgIcon id))
+        -}
         svgIcon =
             Svg.svg [ class "icon-content", Svg.Attributes.viewBox "0 0 32 32" ] [ iconReference ]
     in
-    div [ class "icon", Html.Attributes.style attributes, clickEvent ] [ svgIcon ]
+    div attributes [ svgIcon ]
 
 
 iconNameFromType : String -> IconName
@@ -75,32 +84,47 @@ iconNameFromType ptype =
             "generic"
 
 
-handleMouseDown : Float -> Mouse.Event -> Message.Msg
-handleMouseDown dummy event =
-    Message.PointerStartTouchingViewer event.clientPos
+type alias Pos =
+    { x : Float, y : Float }
 
 
-mouseCoordinates : Mouse.Event -> ( Float, Float )
-mouseCoordinates event =
-    event.clientPos
+decodeClientPosition : Decoder Point.Point
+decodeClientPosition =
+    let
+        x =
+            Decode.field "clientX" Decode.float
+
+        y =
+            Decode.field "clientY" Decode.float
+
+        position =
+            Decode.map2 Point.Point x y
+    in
+    position
+
+
+mouseMoveDecoder : Decoder Message.Msg
+mouseMoveDecoder =
+    Decode.map Message.PointerDraggingViewer decodeClientPosition
 
 
 backgroundSurface : Float -> List (Html.Html Message.Msg) -> Html.Html Message.Msg
 backgroundSurface zoom children =
     let
-        wheelEvent =
-            Wheel.onWheel (\event -> Message.ZoomViewer <| zoom - event.deltaY * 0.01)
-
         mouseDown =
-            Mouse.onDown (Message.PointerStartTouchingViewer << mouseCoordinates)
+            onMouseDown mouseMoveDecoder
 
         mouseUp =
-            Mouse.onUp (Message.PointerStoppedTouchingViewer << mouseCoordinates)
+            onMouseUp mouseMoveDecoder
 
         mouseMove =
-            Mouse.onMove (Message.PointerDraggingViewer << mouseCoordinates)
+            onMouseMove mouseMoveDecoder
+
+        {- wheelEvent =
+           Wheel.onWheel (\event -> Message.ZoomViewer <| zoom - event.deltaY * 0.01)
+        -}
     in
-    div [ class "icons", Html.Events.onClick (Message.ClickedSvgIcon 0), wheelEvent, mouseUp, mouseDown, mouseMove ] children
+    div [ class "icons", Html.Events.onClick (Message.ClickedSvgIcon 0) ] children
 
 
 {-| Render entities both as svg icons and a property sheet.
@@ -119,7 +143,7 @@ render model entities =
                             entity.position.z * model.zoomLevel + 32
 
                         entityPos =
-                            ( x, y )
+                            { x = x, y = y }
 
                         totalOffset =
                             Point.add model.viewportOffset model.temporaryViewportOffset

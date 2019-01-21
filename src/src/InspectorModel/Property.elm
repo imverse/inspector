@@ -19,10 +19,10 @@ primitiveToString propertyPrimitiveValue =
             s
 
         BaseInt i ->
-            toString i
+            String.fromInt i
 
         BaseFloat f ->
-            toString f
+            String.fromFloat f
 
 
 type alias Field =

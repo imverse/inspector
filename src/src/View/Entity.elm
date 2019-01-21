@@ -10,7 +10,7 @@ renderEntity : Entity -> List (Html msg)
 renderEntity entity =
     let
         x =
-            tr [ class "entity" ] [ td [ class "label", colspan 2 ] [ div [] [ text ("#" ++ toString entity.id), text entity.ptype ] ] ]
+            tr [ class "entity" ] [ td [ class "label", colspan 2 ] [ div [] [ text ("#" ++ String.fromInt entity.id), text entity.ptype ] ] ]
 
         y =
             View.Component.renderComponentRows entity.components

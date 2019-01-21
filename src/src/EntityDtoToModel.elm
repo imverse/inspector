@@ -49,7 +49,7 @@ stringToPrimitiveValue typeName value =
                     x
 
                 Err s ->
-                    Property.BaseString s
+                    Property.BaseString "Error"
     in
     baseValue
 

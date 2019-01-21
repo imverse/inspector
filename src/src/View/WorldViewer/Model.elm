@@ -7,7 +7,7 @@ type alias Model =
     { selectedEntityId : Int
     , zoomLevel : Float
     , pointerIsDown : Bool
-    , startPointerDownPosition : ( Float, Float )
+    , startPointerDownPosition : Point.Point
     , viewportOffset : Point.Point
     , temporaryViewportOffset : Point.Point
     }
@@ -28,7 +28,7 @@ setPointerIsDown isTouching model =
     { model | pointerIsDown = isTouching }
 
 
-setStartPointerDownPosition : ( Float, Float ) -> Model -> Model
+setStartPointerDownPosition : Point.Point -> Model -> Model
 setStartPointerDownPosition position model =
     { model | startPointerDownPosition = position }
 
